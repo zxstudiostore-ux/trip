@@ -19,10 +19,15 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(cookieParser());
 app.use(bodyParser.json());
 
+// Support multiple origins via comma-separated FRONTEND_URL env var
+const allowedOrigins = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL.split(",").map((o) => o.trim())
+  : ["http://localhost:5173"];
+
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:5173"],
+    origin: allowedOrigins,
     methods: ["POST", "PUT", "GET", "DELETE"],
   }),
 );

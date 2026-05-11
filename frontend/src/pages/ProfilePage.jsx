@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, Link, useParams } from "react-router-dom";
+import API_BASE_URL from "../config/api";
 import {
   MapPin,
   Calendar,
@@ -70,8 +71,8 @@ const ProfilePage = () => {
       setLoading(true);
       try {
         const url = username 
-          ? `http://localhost:5000/api/user-profile/get-user-profile/${username}`
-          : "http://localhost:5000/api/user-profile/get-my-profile";
+          ? `${API_BASE_URL}/api/user-profile/get-user-profile/${username}`
+          : `${API_BASE_URL}/api/user-profile/get-my-profile`;
         
         const res = await axios.get(url, { withCredentials: true });
         const fetchedUser = res.data.user || res.data;
@@ -199,14 +200,14 @@ const ProfilePage = () => {
       if (travelStyles.length > 0) payload.travelStyles = travelStyles;
 
       await axios.post(
-        "http://localhost:5000/api/user-profile/add-interests",
+        `${API_BASE_URL}/api/user-profile/add-interests`,
         payload,
         { withCredentials: true },
       );
 
       // Refetch profile to get updated data
       const res = await axios.get(
-        "http://localhost:5000/api/user-profile/get-my-profile",
+        `${API_BASE_URL}/api/user-profile/get-my-profile`,
         { withCredentials: true },
       );
       setUser(res.data.user || res.data);
@@ -238,7 +239,7 @@ const ProfilePage = () => {
       if (editFormData.gender) payload.gender = editFormData.gender;
 
       const res = await axios.post(
-        "http://localhost:5000/api/user-profile/edit-profile",
+        `${API_BASE_URL}/api/user-profile/edit-profile`,
         payload,
         { withCredentials: true },
       );
@@ -261,7 +262,7 @@ const ProfilePage = () => {
       formData.append("profilePic", file);
       try {
         const res = await axios.put(
-          "http://localhost:5000/api/user-profile/update-profile-pic",
+          `${API_BASE_URL}/api/user-profile/update-profile-pic`,
           formData,
           {
             withCredentials: true,
@@ -285,7 +286,7 @@ const ProfilePage = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/user-profile/logout",
+        `${API_BASE_URL}/api/user-profile/logout`,
         {},
         { withCredentials: true },
       );
@@ -304,7 +305,7 @@ const ProfilePage = () => {
     if (!profileData) return;
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/user-profile/follow-user",
+        `${API_BASE_URL}/api/user-profile/follow-user`,
         { targetUserId: profileData._id },
         { withCredentials: true }
       );

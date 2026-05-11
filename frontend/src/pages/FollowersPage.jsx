@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import { UserContext } from "../context/userContext";
 import toast from "react-hot-toast";
 import "../styles/FollowersPage.css";
+import API_BASE_URL from "../config/api";
 
 const FollowersPage = () => {
   const { user: currentUser, setUser } = useContext(UserContext);
@@ -21,7 +22,7 @@ const FollowersPage = () => {
     e.stopPropagation(); // Don't navigate to profile
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/user-profile/follow-user",
+        `${API_BASE_URL}/api/user-profile/follow-user`,
         { targetUserId: userId },
         { withCredentials: true }
       );
@@ -56,8 +57,8 @@ const FollowersPage = () => {
     const fetchFollowers = async () => {
       try {
         const url = username 
-          ? `http://localhost:5000/api/user-profile/get-followers/${username}`
-          : "http://localhost:5000/api/user-profile/get-followers";
+          ? `${API_BASE_URL}/api/user-profile/get-followers/${username}`
+          : `${API_BASE_URL}/api/user-profile/get-followers`;
           
         const response = await axios.get(url, { withCredentials: true });
         if (response.data.success) {

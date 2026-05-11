@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { useGoogleLogin } from "@react-oauth/google";
 import AuthLayout from "../components/Auth/AuthLayout";
 import { UserContext } from "../context/userContext";
+import API_BASE_URL from "../config/api";
 
 const GoogleIcon = () => (
   <svg
@@ -69,7 +70,7 @@ const SignupPage = () => {
       setIsLoading(true);
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/auth/google-sign-in",
+          `${API_BASE_URL}/api/auth/google-sign-in`,
           {
             googleToken: tokenResponse.access_token,
           },
@@ -101,7 +102,7 @@ const SignupPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/signup",
+        `${API_BASE_URL}/api/auth/signup`,
         {
           fullName,
           email,

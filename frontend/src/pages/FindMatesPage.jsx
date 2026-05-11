@@ -17,6 +17,7 @@ import Navbar from "../components/Navbar";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import API_BASE_URL from "../config/api";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -67,7 +68,7 @@ const FindMatesPage = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:5000/api/user-profile/get-profiles-from-username`,
+        `${API_BASE_URL}/api/user-profile/get-profiles-from-username`,
         {
           params: {
             username: query,
@@ -131,7 +132,7 @@ const FindMatesPage = () => {
   const handleFollow = async (userId) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/user-profile/follow-user`,
+        `${API_BASE_URL}/api/user-profile/follow-user`,
         { targetUserId: userId },
         { withCredentials: true }
       );

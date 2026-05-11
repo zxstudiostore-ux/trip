@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage, isSupported } from "firebase/messaging";
 import axios from "axios";
+import API_BASE_URL from "./config/api";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDPew83Uek8Zw2sRTzwo38hdiDAhyb1SCo",
@@ -36,7 +37,7 @@ export const requestForToken = async () => {
     if (currentToken) {
       console.log("FCM: Token generated:", currentToken);
       await axios.post(
-        "http://localhost:5000/api/user-profile/update-fcm-token",
+        `${API_BASE_URL}/api/user-profile/update-fcm-token`,
         { fcmToken: currentToken },
         { withCredentials: true }
       );

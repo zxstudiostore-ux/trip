@@ -3,6 +3,8 @@ import { useSocketContext } from "./SocketContext";
 import { UserContext } from "./userContext";
 import VoiceCallModal from "../components/VoiceCallModal";
 import VideoCallModal from "../components/VideoCallModal";
+import axios from "axios";
+import API_BASE_URL from "../config/api";
 
 const CallContext = createContext();
 
@@ -188,7 +190,7 @@ export const CallProvider = ({ children }) => {
         ? `Missed ${callType} call` 
         : `${callType === 'video' ? 'Video' : 'Voice'} call ended (${duration})`;
 
-      await axios.post(`http://localhost:5000/api/chat/call-log/${targetId}`, {
+      await axios.post(`${API_BASE_URL}/api/chat/call-log/${targetId}`, {
         message: logMessage,
         callStatus: status,
         callDuration: duration

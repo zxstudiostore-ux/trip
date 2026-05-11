@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: triptogether-backend
+    env: node
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGODB_URI_KEY
+        sync: false   # Set this in Render dashboard
+      - key: JWT_SECRET_KEY
+        sync: false   # Set this in Render dashboard
+      - key: FRONTEND_URL
+        sync: false   # e.g. https://trip-together.vercel.app
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: FIREBASE_CLIENT_EMAILw
+        sync: false
+      - key: FIREBASE_PRIVATE_KEY
+        sync: false

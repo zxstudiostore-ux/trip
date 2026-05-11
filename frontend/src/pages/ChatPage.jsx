@@ -7,6 +7,7 @@ import { useSocketContext } from "../context/SocketContext";
 import Navbar from "../components/Navbar";
 import toast from "react-hot-toast";
 import { useCallContext } from "../context/CallContext";
+import API_BASE_URL from "../config/api";
 
 const ChatPage = () => {
   const { user: currentUser } = useContext(UserContext);
@@ -30,7 +31,7 @@ const ChatPage = () => {
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/user-profile/get-following", { withCredentials: true });
+        const response = await axios.get(`${API_BASE_URL}/api/user-profile/get-following`, { withCredentials: true });
         if (response.data.success) {
           setConversations(response.data.following);
         }
@@ -50,7 +51,7 @@ const ChatPage = () => {
     const fetchMessages = async () => {
       setMessagesLoading(true);
       try {
-        const response = await axios.get(`http://localhost:5000/api/chat/${selectedConversation._id}`, { withCredentials: true });
+        const response = await axios.get(`${API_BASE_URL}/api/chat/${selectedConversation._id}`, { withCredentials: true });
         setMessages(response.data);
       } catch (error) {
         console.error("Error fetching messages:", error);
@@ -84,7 +85,7 @@ const ChatPage = () => {
     };
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/chat/send/${selectedConversation._id}`, msgData, { withCredentials: true });
+      const response = await axios.post(`${API_BASE_URL}/api/chat/send/${selectedConversation._id}`, msgData, { withCredentials: true });
       setMessages((prev) => [...prev, response.data]);
       setNewMessage("");
     } catch (error) {
