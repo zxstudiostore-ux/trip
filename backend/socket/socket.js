@@ -5,9 +5,9 @@ const express = require("express");
 const app = express();
 
 const server = http.createServer(app);
-const allowedOrigins = process.env.FRONTEND_URL
-  ? process.env.FRONTEND_URL.split(",").map((o) => o.trim())
-  : ["http://localhost:5173"];
+const allowedOrigins = function (origin, callback) {
+  callback(null, origin || true);
+};
 
 const io = new Server(server, {
   cors: {
