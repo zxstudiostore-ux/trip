@@ -6,6 +6,12 @@ const axios = require("axios");
 
 const router = express.Router();
 
+const getCookieOptions = () => ({
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+});
+
 const generateUniqueUsername = async (baseName) => {
   let username;
   let exists = true;
@@ -67,11 +73,7 @@ router.post("/signup", async (req, res) => {
     );
 
     // Send cookie
-    res.cookie("triptogethertoken", token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "strict",
-    });
+    res.cookie("triptogethertoken", token, getCookieOptions());
 
     // Response
     res.status(201).json({
@@ -135,11 +137,7 @@ router.post("/login", async (req, res) => {
     );
 
     // Send cookie
-    res.cookie("triptogethertoken", token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "strict",
-    });
+    res.cookie("triptogethertoken", token, getCookieOptions());
 
     // Response
     res.status(200).json({
@@ -190,11 +188,7 @@ router.post("/google-sign-in", async (req, res) => {
       { expiresIn: "90d" },
     );
 
-    res.cookie("triptogethertoken", token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "strict",
-    });
+    res.cookie("triptogethertoken", token, getCookieOptions());
 
     res.status(200).send({
       success: true,
@@ -211,11 +205,7 @@ router.post("/google-sign-in", async (req, res) => {
 });
 
 router.post("/logout", (req, res) => {
-  res.clearCookie("triptogethertoken", {
-    httpOnly: true,
-    secure: false,
-    sameSite: "strict",
-  });
+  res.clearCookie("triptogethertoken", getCookieOptions());
   res.status(200).json({
     success: true,
     message: "Logged out successfully",
